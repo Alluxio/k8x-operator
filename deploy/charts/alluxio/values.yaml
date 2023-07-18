@@ -391,3 +391,15 @@ metrics:
     #   prometheus.io/workerPort: "30000"
     #   prometheus.io/path: "/metrics/prometheus/"
     podAnnotations: {}
+
+etcd:
+  auth:
+    client:
+      enableAuthentication: false
+    peer:
+      enableAuthentication: false
+    rbac:
+      allowNoneAuthentication: true
+      create: false
+    token:
+      enabled: false
