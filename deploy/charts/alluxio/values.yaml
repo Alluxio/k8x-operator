@@ -332,6 +332,10 @@ csi:
   # whether to launch CSI components
   enabled: false
 
+
+## ETCD cluster ##
+# For coordination operation for alluxio components such as
+# worker membership management
 etcd:
   auth:
     client:
