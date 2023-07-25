@@ -332,6 +332,18 @@ csi:
   # whether to launch CSI components
   enabled: false
 
+etcd:
+  auth:
+    client:
+      enableAuthentication: false
+    peer:
+      enableAuthentication: false
+    rbac:
+      allowNoneAuthentication: true
+      create: false
+    token:
+      enabled: false
+
 ##  Metrics System ##
 
 # Settings for Alluxio metrics
