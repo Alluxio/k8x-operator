@@ -46,7 +46,9 @@ alluxio.worker.page.store.type=LOCAL
 alluxio.worker.page.store.dirs=/mnt/alluxio/pagestore
 {{ printf "alluxio.worker.page.store.sizes=%v" .Values.pagestore.quota }}
 
+{{- if .Values.etcd.enabled }}
 alluxio.worker.membership.type=ETCD
 {{ printf "alluxio.etcd.endpoints=http://%v-etcd:%v" .Release.Name .Values.etcd.containerPorts.client }}
+{{- end }}
 
 {{- end -}}
