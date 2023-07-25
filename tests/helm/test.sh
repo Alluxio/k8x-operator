@@ -5,6 +5,7 @@ EXPECTED_TEMPLATES_DIR="${SCRIPT_DIR}/expectedTemplates"
 TARGET_DIR="${SCRIPT_DIR}/resultTemplates"
 
 function main {
+  helm dependency update "${SCRIPT_DIR}"/../../deploy/charts/alluxio
   mkdir -p "${TARGET_DIR}"
 
   local return_code=0
