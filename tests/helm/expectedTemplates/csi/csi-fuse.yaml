@@ -7,7 +7,7 @@ metadata:
   labels:
     name: dummy-alluxio-csi-fuse-config
     app: alluxio
-    chart: alluxio-1.1.0-SNAPSHOT
+    chart: alluxio-1.0.1
     release: dummy
     heritage: Helm
 data:

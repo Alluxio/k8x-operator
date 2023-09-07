@@ -1,6 +1,9 @@
 dependencies:
 - name: alluxio-monitor
   repository: file://../alluxio-monitor
-  version: 1.1.0-SNAPSHOT
-digest: sha256:ecfc6febc6c8136b42e16353e27b4572fa632afaf46dcc1020af7fe7c5f835b1
-generated: "2023-07-18T18:07:38.539358-07:00"
+  version: 1.0.1
+- name: etcd
+  repository: https://charts.bitnami.com/bitnami
+  version: 9.0.5
+digest: sha256:42a4a7545a12e7a7951b6a209d2d8ab8c71f6837fe9a667785e97a6ae976eb35
+generated: "2023-09-07T11:59:11.873663-07:00"
