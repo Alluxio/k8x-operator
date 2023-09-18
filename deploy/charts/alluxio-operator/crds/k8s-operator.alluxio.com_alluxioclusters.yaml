@@ -3995,7 +3995,7 @@ spec:
                     items:
                       type: string
                     type: array
-                  limitOneWorkerPerPod:
+                  limitOneWorkerPerNode:
                     type: boolean
                   livenessProbe:
                     properties:

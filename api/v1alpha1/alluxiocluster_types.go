@@ -95,19 +95,19 @@ type JournalSpec struct {
 }
 
 type WorkerSpec struct {
-	Affinity             corev1.Affinity   `json:"affinity,omitempty" yaml:"affinity,omitempty"`
-	Count                int               `json:"count,omitempty" yaml:"count,omitempty"`
-	Env                  map[string]string `json:"env,omitempty" yaml:"env,omitempty"`
-	JvmOptions           []string          `json:"jvmOptions,omitempty" yaml:"jvmOptions,omitempty"`
-	LimitOneWorkerPerPod bool              `json:"limitOneWorkerPerPod,omitempty" yaml:"limitOneWorkerPerPod,omitempty"`
-	LivenessProbe        ProbeSpec         `json:"livenessProbe,omitempty" yaml:"livenessProbe,omitempty"`
-	NodeSelector         map[string]string `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
-	PodAnnotations       map[string]string `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty"`
-	Ports                map[string]int    `json:"ports,omitempty" yaml:"ports,omitempty"`
-	ReadinessProbe       ProbeSpec         `json:"readinessProbe,omitempty" yaml:"readinessProbe,omitempty"`
-	Resources            ResourcesSpec     `json:"resources,omitempty" yaml:"resources,omitempty"`
-	StartupProbe         ProbeSpec         `json:"startupProbe,omitempty" yaml:"startupProbe,omitempty"`
-	Tolerations          []Toleration      `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
+	Affinity              corev1.Affinity   `json:"affinity,omitempty" yaml:"affinity,omitempty"`
+	Count                 int               `json:"count,omitempty" yaml:"count,omitempty"`
+	Env                   map[string]string `json:"env,omitempty" yaml:"env,omitempty"`
+	JvmOptions            []string          `json:"jvmOptions,omitempty" yaml:"jvmOptions,omitempty"`
+	LimitOneWorkerPerNode bool              `json:"limitOneWorkerPerNode,omitempty" yaml:"limitOneWorkerPerNode,omitempty"`
+	LivenessProbe         ProbeSpec         `json:"livenessProbe,omitempty" yaml:"livenessProbe,omitempty"`
+	NodeSelector          map[string]string `json:"nodeSelector,omitempty" yaml:"nodeSelector,omitempty"`
+	PodAnnotations        map[string]string `json:"podAnnotations,omitempty" yaml:"podAnnotations,omitempty"`
+	Ports                 map[string]int    `json:"ports,omitempty" yaml:"ports,omitempty"`
+	ReadinessProbe        ProbeSpec         `json:"readinessProbe,omitempty" yaml:"readinessProbe,omitempty"`
+	Resources             ResourcesSpec     `json:"resources,omitempty" yaml:"resources,omitempty"`
+	StartupProbe          ProbeSpec         `json:"startupProbe,omitempty" yaml:"startupProbe,omitempty"`
+	Tolerations           []Toleration      `json:"tolerations,omitempty" yaml:"tolerations,omitempty"`
 }
 
 type PagestoreSpec struct {
