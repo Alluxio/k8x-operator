@@ -16,6 +16,8 @@ type ArtifactType string
 const (
 	DockerArtifact = ArtifactType("docker")
 	HelmArtifact   = ArtifactType("helm")
+
+	HelmChartName = "helmchart:name"
 )
 
 type RepoMetadata struct {

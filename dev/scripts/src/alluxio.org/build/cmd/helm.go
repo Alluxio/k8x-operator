@@ -112,7 +112,9 @@ func HelmF(args []string) error {
 		a.Add(artifact.HelmArtifact,
 			opts.outputDir,
 			chart.TargetName,
-			nil,
+			map[string]string{
+				artifact.HelmChartName: opts.chartName,
+			},
 		)
 		return a.WriteToFile(opts.artifactOutput)
 	}

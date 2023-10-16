@@ -96,7 +96,11 @@ func PresetsF(args []string) error {
 		if !ok {
 			return stacktrace.NewError("must provide valid 'chartName' arg")
 		}
-		a.Add(artifact.HelmArtifact, hOpts.outputDir, image.TargetName, nil)
+		a.Add(artifact.HelmArtifact, hOpts.outputDir, image.TargetName,
+			map[string]string{
+				artifact.HelmChartName: hOpts.chartNamgit ste,
+			},
+		)
 	}
 
 	if flagArtifactOutput != "" {
