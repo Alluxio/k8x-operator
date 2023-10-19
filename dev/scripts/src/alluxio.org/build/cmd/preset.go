@@ -98,7 +98,7 @@ func PresetsF(args []string) error {
 		}
 		a.Add(artifact.HelmArtifact, hOpts.outputDir, image.TargetName,
 			map[string]string{
-				artifact.HelmChartName: hOpts.chartName,
+				artifact.MetadataNameKey: hOpts.chartName,
 			},
 		)
 	}

@@ -113,7 +113,7 @@ func HelmF(args []string) error {
 			opts.outputDir,
 			chart.TargetName,
 			map[string]string{
-				artifact.HelmChartName: opts.chartName,
+				artifact.MetadataNameKey: opts.chartName,
 			},
 		)
 		return a.WriteToFile(opts.artifactOutput)

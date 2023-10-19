@@ -17,7 +17,7 @@ const (
 	DockerArtifact = ArtifactType("docker")
 	HelmArtifact   = ArtifactType("helm")
 
-	HelmChartName = "helmchart:name"
+	MetadataNameKey = "name"
 )
 
 type RepoMetadata struct {
