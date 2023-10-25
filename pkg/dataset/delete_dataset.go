@@ -14,7 +14,7 @@ package dataset
 import (
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 func DeleteDatasetIfExist(req ctrl.Request) (ctrl.Result, error) {

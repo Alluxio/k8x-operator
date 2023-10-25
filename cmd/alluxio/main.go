@@ -14,8 +14,8 @@ package main
 import (
 	"os"
 
-	"github.com/alluxio/k8s-operator/cmd/alluxio/alluxio"
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/cmd/alluxio/alluxio"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 func main() {

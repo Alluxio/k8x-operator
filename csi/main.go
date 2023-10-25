@@ -26,7 +26,7 @@ import (
 	"github.com/golang/glog"
 	"github.com/spf13/cobra"
 
-	"github.com/alluxio/csi/alluxio"
+	"github.com/Alluxio/csi/alluxio"
 )
 
 var (

@@ -19,10 +19,10 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	alluxiov1alpha1 "github.com/alluxio/k8s-operator/api/v1alpha1"
-	"github.com/alluxio/k8s-operator/pkg/dataset"
-	"github.com/alluxio/k8s-operator/pkg/logger"
-	"github.com/alluxio/k8s-operator/pkg/utils"
+	alluxiov1alpha1 "github.com/Alluxio/k8s-operator/api/v1alpha1"
+	"github.com/Alluxio/k8s-operator/pkg/dataset"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/pkg/utils"
 )
 
 func UpdateStatus(alluxioClusterCtx AlluxioClusterReconcileReqCtx) (ctrl.Result, error) {

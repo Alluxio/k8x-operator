@@ -16,8 +16,8 @@ import (
 
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/alluxio/k8s-operator/pkg/logger"
-	"github.com/alluxio/k8s-operator/pkg/utils"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/pkg/utils"
 )
 
 func DeleteAlluxioClusterIfExist(namespacedName types.NamespacedName) error {

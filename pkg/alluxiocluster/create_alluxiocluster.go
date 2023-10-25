@@ -16,8 +16,8 @@ import (
 
 	"sigs.k8s.io/yaml"
 
-	"github.com/alluxio/k8s-operator/pkg/logger"
-	"github.com/alluxio/k8s-operator/pkg/utils"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/pkg/utils"
 )
 
 const chartPath = "/opt/charts/alluxio"

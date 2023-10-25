@@ -16,7 +16,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 func (r *UpdateReconciler) deleteJob(ctx UpdateReconcilerReqCtx) (ctrl.Result, error) {

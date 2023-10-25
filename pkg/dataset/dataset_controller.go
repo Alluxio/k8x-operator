@@ -20,8 +20,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	alluxiov1alpha1 "github.com/alluxio/k8s-operator/api/v1alpha1"
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	alluxiov1alpha1 "github.com/Alluxio/k8s-operator/api/v1alpha1"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 // DatasetReconciler reconciles a Dataset object

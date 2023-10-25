@@ -14,8 +14,8 @@ package main
 import (
 	"os"
 
-	"github.com/alluxio/k8s-operator/cmd/dataset/dataset"
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/cmd/dataset/dataset"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 func main() {

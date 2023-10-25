@@ -20,9 +20,9 @@ import (
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	alluxiov1alpha1 "github.com/alluxio/k8s-operator/api/v1alpha1"
-	"github.com/alluxio/k8s-operator/pkg/alluxiocluster"
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	alluxiov1alpha1 "github.com/Alluxio/k8s-operator/api/v1alpha1"
+	"github.com/Alluxio/k8s-operator/pkg/alluxiocluster"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 var (

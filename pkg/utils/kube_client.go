@@ -15,7 +15,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	"github.com/alluxio/k8s-operator/pkg/logger"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 )
 
 func GetK8sClient() (*kubernetes.Clientset, error) {
