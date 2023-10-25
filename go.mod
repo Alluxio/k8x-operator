@@ -1,4 +1,4 @@
-module github.com/alluxio/k8s-operator
+module github.com/Alluxio/k8s-operator
 
 go 1.19
 
