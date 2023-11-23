@@ -129,7 +129,7 @@ spec:
           {{- end }}
           command: ["/bin/sh", "-c"]
           args:
-            - umount -l {{ $alluxioFuseMountPoint }};
+            - umount -l -f {{ $alluxioFuseMountPoint }};
               {{- $mountTableSource := get .Values.properties "alluxio.mount.table.source" }}
               {{- if or (eq $mountTableSource "ETCD") (eq $mountTableSource "STATIC_FILE") }}
               /entrypoint.sh fuse {{ $alluxioFuseMountPoint }} {{- range .Values.fuse.mountOptions }} -o {{ . }} {{- end }}

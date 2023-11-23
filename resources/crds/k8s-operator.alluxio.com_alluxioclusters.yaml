@@ -2098,9 +2098,13 @@ spec:
                 properties:
                   enabled:
                     type: boolean
+                  hostPath:
+                    type: string
                   size:
                     type: string
                   storageClass:
+                    type: string
+                  type:
                     type: string
                 type: object
               metrics:
