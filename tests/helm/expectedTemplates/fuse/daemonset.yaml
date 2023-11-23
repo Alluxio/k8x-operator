@@ -139,7 +139,7 @@ spec:
               memory: 1Gi
           command: ["/bin/sh", "-c"]
           args:
-            - umount -l /mnt/alluxio/fuse;
+            - umount -l -f /mnt/alluxio/fuse;
               /entrypoint.sh fuse /dummy/dataset/path /mnt/alluxio/fuse -o allow_other -o entry_timeout=3600 -o attr_timeout=3600
           env:
             - name: ALLUXIO_CLIENT_HOSTNAME
