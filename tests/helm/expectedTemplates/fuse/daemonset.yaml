@@ -96,6 +96,20 @@ spec:
         - name: dummySecret1
         - name: dummySecret2
       initContainers:
+        - name: umount-path
+          image: dummy/dummy:dummy
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            privileged: true # required by bidirectional mount
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - umount -l /mnt/alluxio/fuse || true
+          volumeMounts:
+            - name: alluxio-fuse-mount
+              mountPath: /mnt/alluxio
+              mountPropagation: Bidirectional
         - name: path-permission
           image: dummy/dummy:dummy
           imagePullPolicy: IfNotPresent
@@ -139,7 +153,7 @@ spec:
               memory: 1Gi
           command: ["/bin/sh", "-c"]
           args:
-            - umount -l -f /mnt/alluxio/fuse;
+            - umount -l /mnt/alluxio/fuse;
               /entrypoint.sh fuse /dummy/dataset/path /mnt/alluxio/fuse -o allow_other -o entry_timeout=3600 -o attr_timeout=3600
           env:
             - name: ALLUXIO_CLIENT_HOSTNAME
