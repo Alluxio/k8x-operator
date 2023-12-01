@@ -52,6 +52,20 @@ data:
     {{ include "alluxio.imagePullSecrets" . | indent 2 }}
       {{- end}}
       initContainers:
+      - name: umount-path
+        image: {{ .Values.image }}:{{ .Values.imageTag }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
+          privileged: true # required by bidirectional mount
+        command: [ "/bin/sh", "-c" ]
+        args:
+          - umount -l {{ $alluxioFuseMountPoint }} || true
+        volumeMounts:
+          - name: alluxio-fuse-mount
+            mountPath: {{ $hostMountPath }}
+            mountPropagation: Bidirectional
       - name: create-alluxio-fuse-dir
         image: {{ .Values.image }}:{{ .Values.imageTag }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}

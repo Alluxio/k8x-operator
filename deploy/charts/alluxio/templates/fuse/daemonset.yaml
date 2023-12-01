@@ -84,6 +84,20 @@ spec:
 {{ include "alluxio.imagePullSecrets" . | indent 6 }}
       {{- end}}
       initContainers:
+        - name: umount-path
+          image: {{ .Values.image }}:{{ .Values.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            privileged: true # required by bidirectional mount
+          command: [ "/bin/sh", "-c" ]
+          args:
+            - umount -l {{ $alluxioFuseMountPoint }} || true
+          volumeMounts:
+            - name: alluxio-fuse-mount
+              mountPath: {{ $hostMountPath }}
+              mountPropagation: Bidirectional
         - name: path-permission
           image: {{ .Values.image }}:{{ .Values.imageTag }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
@@ -129,7 +143,7 @@ spec:
           {{- end }}
           command: ["/bin/sh", "-c"]
           args:
-            - umount -l -f {{ $alluxioFuseMountPoint }};
+            - umount -l {{ $alluxioFuseMountPoint }};
               {{- $mountTableSource := get .Values.properties "alluxio.mount.table.source" }}
               {{- if or (eq $mountTableSource "ETCD") (eq $mountTableSource "STATIC_FILE") }}
               /entrypoint.sh fuse {{ $alluxioFuseMountPoint }} {{- range .Values.fuse.mountOptions }} -o {{ . }} {{- end }}
