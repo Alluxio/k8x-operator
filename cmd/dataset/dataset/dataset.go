@@ -17,7 +17,9 @@ limitations under the License.
 package dataset
 
 import (
+	"flag"
 	"os"
+	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -49,12 +51,30 @@ func NewDatasetManagerCommand() *cobra.Command {
 }
 
 func startDatasetManager() {
+	//monitoring.RegisterMetrics()
+
+	var metricsAddr string
+	var probeAddr string
+
+	flag.StringVar(&metricsAddr, "metrics-bind-address", ":8080", "The address the metric endpoint binds to.")
+	flag.StringVar(&probeAddr, "health-probe-bind-address", ":8081", "The address the probe endpoint binds to.")
+
+	opts := zap.Options{
+		Development: true,
+	}
+	opts.BindFlags(flag.CommandLine)
+	flag.Parse()
+
+	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
+
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 	utilruntime.Must(alluxiov1alpha1.AddToScheme(scheme))
 
 	manager, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
-		Scheme: scheme,
-		Port:   9443,
+		Scheme:                 scheme,
+		MetricsBindAddress:     metricsAddr,
+		Port:                   9443,
+		HealthProbeBindAddress: probeAddr,
 	})
 	if err != nil {
 		logger.Fatalf("Unable to create Dataset manager: %v", err)

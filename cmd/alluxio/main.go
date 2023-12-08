@@ -12,10 +12,9 @@
 package main
 
 import (
-	"os"
-
 	"github.com/Alluxio/k8s-operator/cmd/alluxio/alluxio"
 	"github.com/Alluxio/k8s-operator/pkg/logger"
+	"os"
 )
 
 func main() {
