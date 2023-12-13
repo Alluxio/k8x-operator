@@ -1,0 +1,15 @@
+# Prometheus Monitor Service (Metrics)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: alluxio-controller-monitor
+  name: alluxio-controller-monitor
+  namespace: kube-system
+spec:
+  endpoints:
+    - port: metrics
+      interval: 15s
+  selector:
+    matchLabels:
+      role: alluxio-controller

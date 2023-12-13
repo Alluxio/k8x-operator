@@ -1,0 +1,34 @@
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: dataset-operator-metrics
+  namespace: alluxio-operator
+  labels:
+    role: dataset-controller
+spec:
+  ports:
+    - name: metrics # expose metrics port
+      port: 8080 # defined in chart
+      protocol: TCP
+  selector:
+    role: dataset-controller
+---
+# Prometheus Monitor Service (Metrics)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: dataset-controller-monitor
+  name: dataset-controller-monitor
+  namespace: kube-system
+spec:
+  endpoints:
+    - port: metrics
+      interval: 15s
+  namespaceSelector:
+    matchNames:
+      - alluxio-operator
+  selector:
+    matchLabels:
+      role: dataset-controller
