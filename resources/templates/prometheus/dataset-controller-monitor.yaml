@@ -6,6 +6,7 @@ metadata:
   namespace: alluxio-operator
   labels:
     role: dataset-controller
+    app: alluxio-operator
 spec:
   ports:
     - name: metrics # expose metrics port
@@ -21,14 +22,14 @@ metadata:
   labels:
     app: dataset-controller-monitor
   name: dataset-controller-monitor
-  namespace: kube-system
+  #namespace: default
 spec:
   endpoints:
     - port: metrics
       interval: 15s
-  namespaceSelector:
-    matchNames:
-      - alluxio-operator
+#  namespaceSelector:
+#    matchNames:
+#      - alluxio-operator
   selector:
     matchLabels:
       role: dataset-controller

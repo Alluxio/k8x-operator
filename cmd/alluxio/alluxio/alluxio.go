@@ -58,6 +58,7 @@ func startAlluxioManager() {
 	flag.Parse()
 
 	ctrl.SetLogger(zap.New(zap.UseFlagOptions(&opts)))
+	// END OF Monitoring
 
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 	utilruntime.Must(alluxiov1alpha1.AddToScheme(scheme))

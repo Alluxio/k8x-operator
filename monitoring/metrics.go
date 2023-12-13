@@ -1,6 +1,7 @@
 package monitoring
 
 import (
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 	"github.com/prometheus/client_golang/prometheus"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 )
@@ -51,6 +52,7 @@ var (
 func RegisterMetrics() {
 	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
 	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
+	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
 }
 
 // ListMetrics will create a slice with the metrics available in metricDescription

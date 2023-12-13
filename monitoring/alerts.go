@@ -35,8 +35,9 @@ func NewPrometheusRule(namespace string) *monitoringv1.PrometheusRule {
 func NewPrometheusRuleSpec() *monitoringv1.PrometheusRuleSpec {
 	return &monitoringv1.PrometheusRuleSpec{
 		Groups: []monitoringv1.RuleGroup{{
-			Name:  alertRuleGroup,
+			Name: alertRuleGroup,
 			Rules: []monitoringv1.Rule{
+				createDatasetMountedAlertRule(),
 				//createDeploymentSizeUndesiredAlertRule(),
 				//createOperatorDownAlertRule(),
 				//createOperatorUpTotalRecordingRule(),

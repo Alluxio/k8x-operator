@@ -101,10 +101,10 @@ func (r *AlluxioClusterReconciler) Reconcile(context context.Context, req ctrl.R
 			logger.Errorf("Failed to get Dataset %s: %v", req.NamespacedName.String(), err)
 			return ctrl.Result{}, err
 		}
+
+	} else {
+		monitoring.AlluxioClusterDatasetMountedCountTotal.Inc()
 	}
-	//} else {
-	//	monitoring.AlluxioClusterDatasetMountedCountTotal.Inc()
-	//}
 
 	if alluxioCluster.DeletionTimestamp != nil {
 		if err := deleteConfYamlFileIfExist(ctx.NamespacedName); err != nil {

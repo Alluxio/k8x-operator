@@ -21,7 +21,7 @@ metadata:
   labels:
     app: alluxio-controller-monitor
   name: alluxio-controller-monitor
-  namespace: kube-system
+  #namespace: default
 spec:
   endpoints:
     - port: metrics
@@ -29,3 +29,4 @@ spec:
   selector:
     matchLabels:
       role: alluxio-controller
+
