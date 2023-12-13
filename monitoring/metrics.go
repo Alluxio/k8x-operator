@@ -21,11 +21,11 @@ var metricDescription = map[string]MetricDescription{
 	//	Help: "Total number of times the deployment size was not as desired.",
 	//	Type: "Counter",
 	//},
-	"AlluxioClusterAliveWorkerTotal": {
-		Name: "alluxio_cluster_alive_worker_total",
-		Help: "Total number of alive worker.",
-		Type: "Gauge",
-	},
+	//"AlluxioClusterAliveWorkerTotal": {
+	//	Name: "alluxio_cluster_alive_worker_total",
+	//	Help: "Total number of alive worker.",
+	//	Type: "Gauge",
+	//},
 	"AlluxioClusterDatasetMountedCountTotal": {
 		Name: "alluxio_cluster_dataset_mounted_count_total",
 		Help: "Total number of times the dataset was mounted.",
@@ -34,12 +34,12 @@ var metricDescription = map[string]MetricDescription{
 }
 
 var (
-	AlluxioClusterAliveWorkerTotal = prometheus.NewGauge(
-		prometheus.GaugeOpts{
-			Name: metricDescription["AlluxioClusterAliveWorkerTotal"].Name,
-			Help: metricDescription["AlluxioClusterAliveWorkerTotal"].Help,
-		},
-	)
+	//AlluxioClusterAliveWorkerTotal = prometheus.NewGauge(
+	//	prometheus.GaugeOpts{
+	//		Name: metricDescription["AlluxioClusterAliveWorkerTotal"].Name,
+	//		Help: metricDescription["AlluxioClusterAliveWorkerTotal"].Help,
+	//	},
+	//)
 	AlluxioClusterDatasetMountedCountTotal = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Name: metricDescription["AlluxioClusterDatasetMountedCountTotal"].Name,
@@ -53,6 +53,17 @@ func RegisterMetrics() {
 	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
 	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
 	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
+}
+
+func RegisterDatasetControllerMetrics() {
+	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
+	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
+	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
+}
+
+func RegisterAlluxioControllerMetrics() {
+	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
+	logger.Infof("Register Metrics: PENDING: AlluxioClusterAliveWorkerTotal")
 }
 
 // ListMetrics will create a slice with the metrics available in metricDescription

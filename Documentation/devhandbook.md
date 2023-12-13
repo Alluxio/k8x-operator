@@ -35,14 +35,12 @@ docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile
 ```
 
 * For Apple Silicon Chip:
-  ```shell
-  docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:v1.3 -f dev/build/Dockerfile .
-  ```
+  ```docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:v1.5 -f dev/build/Dockerfile .```
 
 
 ### Step 3
 ```shell
-docker push kshou433/alluxio-operator:v1.3
+docker push kshou433/alluxio-operator:v1.5
 ```
 
 ### Step 4
@@ -57,8 +55,8 @@ Update image url and tage in ```operator-config.yaml```
 ### Check if prometheus is running
 ```kubectl get prometheus -o yaml```
 
-### Check if several operators are running on the cluster:
+### Check if several prometheus operators are running on the cluster:
 ```kubectl get pods --all-namespaces | grep 'prom.*operator'```
 
-
-
+### Access prometheus GUI
+```kubectl -n monitoring port-forward svc/prometheus-k8s 9090```

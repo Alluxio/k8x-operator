@@ -18,6 +18,7 @@ package dataset
 
 import (
 	"flag"
+	"github.com/Alluxio/k8s-operator/monitoring"
 	"os"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
@@ -51,7 +52,7 @@ func NewDatasetManagerCommand() *cobra.Command {
 }
 
 func startDatasetManager() {
-	//monitoring.RegisterMetrics()
+	monitoring.RegisterDatasetControllerMetrics()
 
 	var metricsAddr string
 	var probeAddr string

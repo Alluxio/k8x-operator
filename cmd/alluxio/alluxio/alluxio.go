@@ -43,7 +43,7 @@ func NewAlluxioManagerCommand() *cobra.Command {
 }
 
 func startAlluxioManager() {
-	monitoring.RegisterMetrics()
+	monitoring.RegisterAlluxioControllerMetrics()
 
 	var metricsAddr string
 	var probeAddr string

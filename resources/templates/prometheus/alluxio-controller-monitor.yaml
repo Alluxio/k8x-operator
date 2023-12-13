@@ -6,6 +6,7 @@ metadata:
   namespace: alluxio-operator
   labels:
     role: alluxio-controller
+    app: alluxio-operator
 spec:
   ports:
     - name: metrics # expose metrics port
@@ -21,11 +22,13 @@ metadata:
   labels:
     app: alluxio-controller-monitor
   name: alluxio-controller-monitor
-  #namespace: default
 spec:
   endpoints:
     - port: metrics
       interval: 15s
+  namespaceSelector:
+    matchNames:
+      - alluxio-operator
   selector:
     matchLabels:
       role: alluxio-controller
