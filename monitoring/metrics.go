@@ -21,49 +21,61 @@ var metricDescription = map[string]MetricDescription{
 	//	Help: "Total number of times the deployment size was not as desired.",
 	//	Type: "Counter",
 	//},
-	//"AlluxioClusterAliveWorkerTotal": {
-	//	Name: "alluxio_cluster_alive_worker_total",
-	//	Help: "Total number of alive worker.",
-	//	Type: "Gauge",
-	//},
+	"AlluxioClusterAliveWorkerTotal": {
+		Name: "alluxio_cluster_alive_worker_total",
+		Help: "Total number of alive worker in Alluxio Cluster.",
+		Type: "Gauge",
+	},
 	"AlluxioClusterDatasetMountedCountTotal": {
 		Name: "alluxio_cluster_dataset_mounted_count_total",
 		Help: "Total number of times the dataset was mounted.",
 		Type: "Counter",
 	},
+	"DatasetAliveWorkerTotal": {
+		Name: "dataset_alive_worker_total",
+		Help: "Total number of alive worker in Dataset.",
+		Type: "Gauge",
+	},
 }
 
 var (
-	//AlluxioClusterAliveWorkerTotal = prometheus.NewGauge(
-	//	prometheus.GaugeOpts{
-	//		Name: metricDescription["AlluxioClusterAliveWorkerTotal"].Name,
-	//		Help: metricDescription["AlluxioClusterAliveWorkerTotal"].Help,
-	//	},
-	//)
+	AlluxioClusterAliveWorkerTotal = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: metricDescription["AlluxioClusterAliveWorkerTotal"].Name,
+			Help: metricDescription["AlluxioClusterAliveWorkerTotal"].Help,
+		},
+	)
 	AlluxioClusterDatasetMountedCountTotal = prometheus.NewCounter(
 		prometheus.CounterOpts{
 			Name: metricDescription["AlluxioClusterDatasetMountedCountTotal"].Name,
 			Help: metricDescription["AlluxioClusterDatasetMountedCountTotal"].Help,
 		},
 	)
+	DatasetAliveWorkerTotal = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: metricDescription["DatasetAliveWorkerTotal"].Name,
+			Help: metricDescription["DatasetAliveWorkerTotal"].Help,
+		},
+	)
 )
 
 // RegisterMetrics will register metrics with the global prometheus registry
-func RegisterMetrics() {
-	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
+//func RegisterMetrics() {
+//	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
+//	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
+//	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
+//}
+
+func RegisterAlluxioControllerMetrics() {
+	metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
+	logger.Infof("Register Metrics: AlluxioClusterAliveWorkerTotal")
 	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
 	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
 }
 
 func RegisterDatasetControllerMetrics() {
-	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
-	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
-	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
-}
-
-func RegisterAlluxioControllerMetrics() {
-	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
-	logger.Infof("Register Metrics: PENDING: AlluxioClusterAliveWorkerTotal")
+	metrics.Registry.MustRegister(DatasetAliveWorkerTotal)
+	logger.Infof("Register Metrics: DatasetAliveWorkerTotal")
 }
 
 // ListMetrics will create a slice with the metrics available in metricDescription

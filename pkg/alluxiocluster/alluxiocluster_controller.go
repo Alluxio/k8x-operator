@@ -43,7 +43,7 @@ type AlluxioClusterReconcileReqCtx struct {
 }
 
 const ruleName = "alluxio-operator-rules"
-const namespace = "alluxio-operator-system"
+const namespace = "alluxio-operator"
 
 func (r *AlluxioClusterReconciler) Reconcile(context context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger.Infof("Reconciling AlluxioCluster %s", req.NamespacedName.String())

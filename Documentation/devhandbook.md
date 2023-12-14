@@ -1,15 +1,14 @@
 # Developemnt Handbook
 
-Make Sure you have a k8s cluster
+#### Make Sure you have a k8s cluster
 
 ## Local Testing
 
 ### Step 0
-Generate Helm Chart files: RUN ```./dev/build/generate.sh``` under project root.
-
+Generate Helm Chart files by running `./dev/build/generate.sh` under project root.
 
 ### Step 1
-Install Alluxion Operator via Helm Chart under ```deploy/charts/alluxio-operator```
+Install Alluxion Operator via Helm Chart under `deploy/charts/alluxio-operator`
   ```shell
   helm install operator -f operator-config.yaml deploy/charts/alluxio-operator
   ```
@@ -20,28 +19,32 @@ Install Alluxion Operator via Helm Chart under ```deploy/charts/alluxio-operator
   ```
 
 
-## How to Make Operator Docker Image
+## Make Alluxio K8s Operator Docker Image
 
 ### Step 0
-注册一个dockerhub的账号，在terminal里docker login
+Create a dockerhub account, and login in terminal
 
 ### Step 1
-Generate Helm Chart files: RUN ```./dev/build/generate.sh``` under project root.
+Generate Helm Chart files by running `./dev/build/generate.sh` under project root.
 
 ### Step 2
-在project home的路径下运行 docker:
-```shell
-docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .
-```
+Build dokcer image by running `docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .` under project root.
 
-* For Apple Silicon Chip:
-  ```docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:v1.5 -f dev/build/Dockerfile .```
+* For Apple Silicon Chip: `docker buildx build --platform linux/amd64 -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .`
 
+
+* Example:
+  ```shell
+  docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:v1.6 -f dev/build/Dockerfile .
+  ```
 
 ### Step 3
-```shell
-docker push kshou433/alluxio-operator:v1.5
-```
+Push image to docker hub : `docker push <docker username>/alluxio-operator:<tag>`.
+
+* Example:
+  ```shell
+  docker push kshou433/alluxio-operator:v1.6
+  ```
 
 ### Step 4
 Update image url and tage in ```operator-config.yaml```
@@ -50,7 +53,7 @@ Update image url and tage in ```operator-config.yaml```
 ## Verify the Deployment
 
 ### Check endpoints
-```kubectl get endpoints```
+```kubectl get endpoints -A```
 
 ### Check if prometheus is running
 ```kubectl get prometheus -o yaml```
