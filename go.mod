@@ -3,6 +3,7 @@ module github.com/Alluxio/k8s-operator
 go 1.19
 
 require (
+	github.com/emicklei/go-restful v2.9.5+incompatible
 	github.com/jinzhu/copier v0.3.5
 	github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring v0.50.0
 	github.com/prometheus/client_golang v1.13.1
