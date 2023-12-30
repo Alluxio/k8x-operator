@@ -23,24 +23,33 @@ type Error struct {
 	Details string `json:"details"`
 }
 
-// AlluxioCluster Part
+// AlluxioCluster Part todo check below!!!
+type AlluxioClusterConfig struct {
+	Name string                       `json:"name"`
+	Spec *v1alpha1.AlluxioClusterSpec `json:"spec,omitempty"`
+}
+
 type AlluxioCluster struct {
-	Spec   *v1alpha1.AlluxioClusterSpec   `json:"spec,omitempty"`
-	Status *v1alpha1.AlluxioClusterStatus `json:"status,omitempty"`
+	AlluxioClusterConfig AlluxioClusterConfig           `json:"alluxio-cluster-config,omitempty"`
+	Status               *v1alpha1.AlluxioClusterStatus `json:"status,omitempty"`
 }
 
 type AlluxioClusterList struct {
-	Items []AlluxioCluster `json:"items"`
+	AlluxioClusters []AlluxioCluster `json:"alluxio-clusters"`
 }
 
-// Dataset Part
+type DatasetConfig struct {
+	Name        string            `json:"name"`
+	Path        string            `json:"path"`
+	Credentials map[string]string `json:"credentials,omitempty"`
+}
+
+// Dataset todo change the `json:"datasetConfig"` captial letter
 type Dataset struct {
-	Name        string                  `json:"name"`
-	Path        string                  `json:"path"`
-	Credentials map[string]string       `json:"credentials,omitempty"`
-	Status      *v1alpha1.DatasetStatus `json:"status,omitempty"`
+	DatasetConfig DatasetConfig           `json:"datasetConfig"`
+	Status        *v1alpha1.DatasetStatus `json:"status,omitempty"`
 }
 
 type DatasetList struct {
-	Items []Dataset `json:"items"`
+	Datasets []Dataset `json:"datasets"`
 }

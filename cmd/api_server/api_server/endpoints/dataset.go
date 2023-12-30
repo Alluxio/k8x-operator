@@ -3,10 +3,10 @@ package endpoints
 import (
 	"fmt"
 	"github.com/Alluxio/k8s-operator/api/v1alpha1"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 	"github.com/emicklei/go-restful"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 type DatasetEndpoint struct {
@@ -19,7 +19,7 @@ func NewDataSetEndpoint(client client.Client) *DatasetEndpoint {
 
 func (datasetEndpoint *DatasetEndpoint) SetupWithWS(ws *restful.WebService) {
 	ws.Route(ws.GET("dataset").To(datasetEndpoint.show).
-		Doc("List of Datasets").
+		Doc("List of All Datasets").
 		Returns(200, "OK", DatasetList{}))
 
 	ws.Route(ws.POST("dataset").To(datasetEndpoint.create).
@@ -27,14 +27,19 @@ func (datasetEndpoint *DatasetEndpoint) SetupWithWS(ws *restful.WebService) {
 		Returns(200, "OK", Dataset{}).
 		Returns(400, "Bad Request", nil))
 
+	//ws.Route(ws.PUT("dataset").To(datasetEndpoint.update).
+	//	Doc("Update a Current Dataset").
+	//	Returns(200, "OK", Dataset{}).
+	//	Returns(400, "Bad Request", nil))
+	//
+
 	ws.Route(ws.DELETE("dataset").To(datasetEndpoint.delete).
-		Doc("Delete Current Dataset").
+		Doc("Delete a Current Dataset").
 		Returns(200, "OK", nil).
 		Returns(400, "Bad Request", nil))
-
-	// todo add more route
 }
 
+// show takes GET request.
 func (datasetEndpoint *DatasetEndpoint) show(request *restful.Request, response *restful.Response) {
 	datasetList := new(v1alpha1.DatasetList)
 	err := datasetEndpoint.client.List(request.Request.Context(), datasetList, &client.ListOptions{})
@@ -58,10 +63,11 @@ func (datasetEndpoint *DatasetEndpoint) show(request *restful.Request, response 
 
 }
 
+// create takes POST request with json format datasetConfig types.
 func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, response *restful.Response) {
 	// Read input
-	dataset := new(Dataset)
-	err := request.ReadEntity(dataset)
+	datasetConfig := &DatasetConfig{}
+	err := request.ReadEntity(datasetConfig)
 
 	if err != nil {
 		writeError(response, 400, Error{
@@ -72,20 +78,20 @@ func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, respons
 	}
 
 	// TODO May need validation func
-
 	datasetObj := &v1alpha1.Dataset{
-		ObjectMeta: metav1.ObjectMeta{Name: dataset.Name},
+		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
 		Spec: v1alpha1.DatasetSpec{
 			Dataset: v1alpha1.DatasetConf{
-				Path:        dataset.Path,
-				Credentials: dataset.Credentials,
+				Path:        datasetConfig.Path,
+				Credentials: datasetConfig.Credentials,
 			},
 		},
 	}
 
-	// Deploy the object
+	//Deploy the object
 	err = datasetEndpoint.client.Create(request.Request.Context(), datasetObj, &client.CreateOptions{})
 	if err != nil {
+		logger.Infof("Unable to create, the error is: %s ", err)
 		writeError(response, 400, Error{
 			Title:   "Error",
 			Details: fmt.Sprintf("Could not create object: %s", err),
@@ -101,15 +107,15 @@ func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, respons
 			})
 		}
 	}
+	logger.Infof("Create Dataset: %s Successfully", datasetObj.ObjectMeta.Name)
 }
 
+// delete takes DELETE request
 func (datasetEndpoint *DatasetEndpoint) delete(request *restful.Request, response *restful.Response) {
-	//writeError(response, 404, Error{
-	//	Title:   "Error",
-	//	Details: "To Do",
-	//})
-	dataset := new(Dataset)
-	err := request.ReadEntity(dataset)
+	// Read input
+	datasetConfig := &DatasetConfig{}
+	err := request.ReadEntity(datasetConfig)
+
 	if err != nil {
 		writeError(response, 400, Error{
 			Title:   "Bad Request",
@@ -118,14 +124,12 @@ func (datasetEndpoint *DatasetEndpoint) delete(request *restful.Request, respons
 		return
 	}
 
-	// TODO May need validation func
-
 	datasetObj := &v1alpha1.Dataset{
-		ObjectMeta: metav1.ObjectMeta{Name: dataset.Name},
+		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
 		Spec: v1alpha1.DatasetSpec{
 			Dataset: v1alpha1.DatasetConf{
-				Path:        dataset.Path,
-				Credentials: dataset.Credentials,
+				Path:        datasetConfig.Path,
+				Credentials: datasetConfig.Credentials,
 			},
 		},
 	}
@@ -134,7 +138,15 @@ func (datasetEndpoint *DatasetEndpoint) delete(request *restful.Request, respons
 	if err = datasetEndpoint.client.Delete(request.Request.Context(), datasetObj, &client.DeleteOptions{}); err != nil {
 		writeError(response, 400, Error{
 			Title:   "Error",
-			Details: fmt.Sprintf("Could not Delete object: %s", err),
+			Details: fmt.Sprintf("Could not Delete dataset: %s", err),
 		})
 	}
+	logger.Infof("DELETE Dataset: %s Successfully", datasetObj.ObjectMeta.Name)
+}
+
+func (datasetEndpoint *DatasetEndpoint) update(request *restful.Request, response *restful.Response) {
+	writeError(response, 400, Error{
+		Title:   "Error",
+		Details: "To Do, can read entity",
+	})
 }
