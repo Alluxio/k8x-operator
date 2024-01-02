@@ -30,7 +30,7 @@ type AlluxioClusterConfig struct {
 }
 
 type AlluxioCluster struct {
-	AlluxioClusterConfig AlluxioClusterConfig           `json:"alluxio-cluster-config,omitempty"`
+	AlluxioClusterConfig AlluxioClusterConfig           `json:"alluxio-cluster-config"`
 	Status               *v1alpha1.AlluxioClusterStatus `json:"status,omitempty"`
 }
 

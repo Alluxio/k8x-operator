@@ -3,7 +3,9 @@ package endpoints
 import (
 	"fmt"
 	"github.com/Alluxio/k8s-operator/api/v1alpha1"
+	"github.com/Alluxio/k8s-operator/pkg/logger"
 	"github.com/emicklei/go-restful"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -17,30 +19,29 @@ func NewAlluxioClusterEndpoint(client client.Client) *AlluxioClusterEndpoint {
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) SetupWithWS(ws *restful.WebService) {
 	ws.Route(ws.GET("alluxio_cluster").To(alluxioClusterEndpoint.show).
-		Doc("List of AlluxioClusters").
-		Returns(200, "OK", &v1alpha1.AlluxioClusterList{}))
+		Doc("List of Alluxio Clusters").
+		Returns(200, "OK", AlluxioClusterList{}))
 
 	ws.Route(ws.POST("alluxio_cluster").To(alluxioClusterEndpoint.create).
-		Doc("Create AlluxioClusters").
-		Returns(200, "OK", nil).
+		Doc("Create a new Alluxio Cluster").
+		Returns(200, "OK", AlluxioCluster{}).
 		Returns(400, "Bad Request", nil))
 
 	ws.Route(ws.DELETE("alluxio_cluster").To(alluxioClusterEndpoint.delete).
-		Doc("Delete Current AlluxioClusters").
+		Doc("Delete a Current Alluxio Cluster").
 		Returns(200, "OK", nil).
 		Returns(400, "Bad Request", nil))
 
-	ws.Route(ws.PATCH("alluxio_cluster").To(alluxioClusterEndpoint.update).
-		Doc("Update Current AlluxioClusters").
-		Returns(200, "OK", nil).
-		Returns(400, "Bad Request", nil))
-
+	//ws.Route(ws.PATCH("alluxio_cluster").To(alluxioClusterEndpoint.update).
+	//	Doc("Update Current AlluxioClusters").
+	//	Returns(200, "OK", nil).
+	//	Returns(400, "Bad Request", nil))
 }
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) show(request *restful.Request, response *restful.Response) {
 	// Get AlluxioClusterList
-	AlluxioClusterList := new(v1alpha1.AlluxioClusterList)
-	err := alluxioClusterEndpoint.client.List(request.Request.Context(), AlluxioClusterList, &client.ListOptions{})
+	alluxioClusterList := new(v1alpha1.AlluxioClusterList)
+	err := alluxioClusterEndpoint.client.List(request.Request.Context(), alluxioClusterList, &client.ListOptions{})
 	// Unable to get:
 	if err != nil {
 		writeError(response, 404, Error{
@@ -48,25 +49,24 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) show(request *restful.Requ
 			Details: fmt.Sprintf("Could not retrieve list: %s", err),
 		})
 		return
+	} else {
+		// Convert
+		newAL := AlluxioClusterConverter.AlluxioClusterList(alluxioClusterList)
+		// Send
+		if err := response.WriteAsJson(newAL); err != nil {
+			writeError(response, 404, Error{
+				Title:   "Error",
+				Details: "Could not list resources",
+			})
+		}
 	}
-	// Write to response:
-	newAL := AlluxioClusterConverter.AlluxioClusterList(AlluxioClusterList)
-	if err := response.WriteAsJson(newAL); err != nil {
-		writeError(response, 404, Error{
-			Title:   "Error",
-			Details: "Could not list resources",
-		})
-	}
-}
-
-type Test struct {
-	Title string `json:"title"`
+	logger.Infof("Get Alluxio Clusters Successfully")
 }
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) create(request *restful.Request, response *restful.Response) {
-	test := new(Test)
-
-	err := request.ReadEntity(test)
+	// Read input
+	alluxioClusterConfig := &AlluxioClusterConfig{}
+	err := request.ReadEntity(alluxioClusterConfig)
 
 	if err != nil {
 		writeError(response, 400, Error{
@@ -76,20 +76,66 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) create(request *restful.Re
 		return
 	}
 
-	writeError(response, 400, Error{
-		Title:   "Error",
-		Details: "To Do, can read entity",
-	})
-}
+	// TODO May need validation func
+	alluxioClusterObj := &v1alpha1.AlluxioCluster{
+		ObjectMeta: metav1.ObjectMeta{Name: alluxioClusterConfig.Name, Namespace: "default"},
+		Spec:       *alluxioClusterConfig.Spec,
+	}
 
-func (alluxioClusterEndpoint *AlluxioClusterEndpoint) update(request *restful.Request, response *restful.Response) {
-	writeError(response, 400, Error{
-		Title:   "Error",
-		Details: "To Do",
-	})
+	//Deploy the object
+	err = alluxioClusterEndpoint.client.Create(request.Request.Context(), alluxioClusterObj, &client.CreateOptions{})
+	if err != nil {
+		logger.Infof("Unable to create, the error is: %s ", err)
+		writeError(response, 400, Error{
+			Title:   "Error",
+			Details: fmt.Sprintf("Could not create object: %s", err),
+		})
+	} else {
+		// Convert
+		newAlluxioClusterObj := AlluxioClusterConverter.AlluxioClusterObject(alluxioClusterObj)
+		// Send
+		if err := response.WriteAsJson(newAlluxioClusterObj); err != nil {
+			writeError(response, 404, Error{
+				Title:   "Error",
+				Details: "Could not list resources",
+			})
+		}
+	}
+	logger.Infof("Create Alluxio Cluster: %s Successfully", alluxioClusterObj.ObjectMeta.Name)
 }
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) delete(request *restful.Request, response *restful.Response) {
+	// Read input
+	alluxioClusterConfig := &AlluxioClusterConfig{}
+	err := request.ReadEntity(alluxioClusterConfig)
+
+	if err != nil {
+		writeError(response, 400, Error{
+			Title:   "Bad Request",
+			Details: "Could not read entity",
+		})
+		return
+	}
+
+	// TODO May need validation func
+	alluxioClusterObj := &v1alpha1.AlluxioCluster{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      alluxioClusterConfig.Name,
+			Namespace: "default",
+		},
+	}
+
+	// Delete the object
+	if err = alluxioClusterEndpoint.client.Delete(request.Request.Context(), alluxioClusterObj, &client.DeleteOptions{}); err != nil {
+		writeError(response, 400, Error{
+			Title:   "Error",
+			Details: fmt.Sprintf("Could not Delete dataset: %s", err),
+		})
+	}
+	logger.Infof("DELETE Dataset: %s Successfully", alluxioClusterObj.ObjectMeta.Name)
+}
+
+func (alluxioClusterEndpoint *AlluxioClusterEndpoint) update(request *restful.Request, response *restful.Response) {
 	writeError(response, 400, Error{
 		Title:   "Error",
 		Details: "To Do",

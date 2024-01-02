@@ -126,12 +126,6 @@ func (datasetEndpoint *DatasetEndpoint) delete(request *restful.Request, respons
 
 	datasetObj := &v1alpha1.Dataset{
 		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
-		Spec: v1alpha1.DatasetSpec{
-			Dataset: v1alpha1.DatasetConf{
-				Path:        datasetConfig.Path,
-				Credentials: datasetConfig.Credentials,
-			},
-		},
 	}
 
 	// Delete the object

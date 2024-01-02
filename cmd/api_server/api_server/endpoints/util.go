@@ -21,8 +21,11 @@ type alluxioClusterConverter struct{}
 
 func (c *alluxioClusterConverter) AlluxioClusterObject(d *v1alpha1.AlluxioCluster) *AlluxioCluster {
 	return &AlluxioCluster{
-		AlluxioClusterConfig: AlluxioClusterConfig{Spec: &d.Spec},
-		Status:               &d.Status,
+		AlluxioClusterConfig: AlluxioClusterConfig{
+			Name: d.Name,
+			Spec: &d.Spec,
+		},
+		Status: &d.Status,
 	}
 }
 
