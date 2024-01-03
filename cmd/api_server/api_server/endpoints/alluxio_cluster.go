@@ -60,7 +60,6 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) show(request *restful.Requ
 			})
 		}
 	}
-	logger.Infof("Get Alluxio Clusters Successfully")
 }
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) create(request *restful.Request, response *restful.Response) {
@@ -132,7 +131,7 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) delete(request *restful.Re
 			Details: fmt.Sprintf("Could not Delete dataset: %s", err),
 		})
 	}
-	logger.Infof("DELETE Dataset: %s Successfully", alluxioClusterObj.ObjectMeta.Name)
+	logger.Infof("DELETE Alluxio Cluster: %s Successfully", alluxioClusterObj.ObjectMeta.Name)
 }
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) update(request *restful.Request, response *restful.Response) {
