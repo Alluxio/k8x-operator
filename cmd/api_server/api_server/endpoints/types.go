@@ -46,7 +46,7 @@ type DatasetConfig struct {
 
 // Dataset todo change the `json:"datasetConfig"` captial letter
 type Dataset struct {
-	DatasetConfig DatasetConfig           `json:"datasetConfig"`
+	DatasetConfig DatasetConfig           `json:"dataset-config"`
 	Status        *v1alpha1.DatasetStatus `json:"status,omitempty"`
 }
 

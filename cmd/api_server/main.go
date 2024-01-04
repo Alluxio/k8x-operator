@@ -38,7 +38,7 @@ func startAPIServerManager() {
 
 	mgr, err := apiserver.NewManager(ctrl.GetConfigOrDie(), apiserver.Options{
 		Scheme:         scheme,
-		Port:           5220,
+		Port:           80,
 		AllowedDomains: []string{},
 	})
 	if err != nil {
