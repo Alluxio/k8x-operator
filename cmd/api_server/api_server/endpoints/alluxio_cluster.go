@@ -91,7 +91,7 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) create(request *restful.Re
 		})
 	} else {
 		// Convert
-		newAlluxioClusterObj := AlluxioClusterConverter.AlluxioClusterObject(alluxioClusterObj)
+		newAlluxioClusterObj := AlluxioClusterConverter.AlluxioClusterObject(*alluxioClusterObj)
 		// Send
 		if err := response.WriteAsJson(newAlluxioClusterObj); err != nil {
 			writeError(response, 404, Error{
@@ -100,7 +100,7 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) create(request *restful.Re
 			})
 		}
 	}
-	logger.Infof("Create Alluxio Cluster: %s Successfully", alluxioClusterObj.ObjectMeta.Name)
+	logger.Infof("Create Alluxio Cluster: %s", alluxioClusterObj.ObjectMeta.Name)
 }
 
 func (alluxioClusterEndpoint *AlluxioClusterEndpoint) delete(request *restful.Request, response *restful.Response) {
@@ -131,12 +131,12 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) delete(request *restful.Re
 			Details: fmt.Sprintf("Could not Delete dataset: %s", err),
 		})
 	}
-	logger.Infof("DELETE Alluxio Cluster: %s Successfully", alluxioClusterObj.ObjectMeta.Name)
+	logger.Infof("DELETE Alluxio Cluster: %s", alluxioClusterObj.ObjectMeta.Name)
 }
 
-func (alluxioClusterEndpoint *AlluxioClusterEndpoint) update(request *restful.Request, response *restful.Response) {
-	writeError(response, 400, Error{
-		Title:   "Error",
-		Details: "To Do",
-	})
-}
+//func (alluxioClusterEndpoint *AlluxioClusterEndpoint) update(request *restful.Request, response *restful.Response) {
+//	writeError(response, 400, Error{
+//		Title:   "Error",
+//		Details: "To Do",
+//	})
+//}

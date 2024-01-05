@@ -27,16 +27,16 @@ func (datasetEndpoint *DatasetEndpoint) SetupWithWS(ws *restful.WebService) {
 		Returns(200, "OK", Dataset{}).
 		Returns(400, "Bad Request", nil))
 
+	ws.Route(ws.DELETE("dataset").To(datasetEndpoint.delete).
+		Doc("Delete a Current Dataset").
+		Returns(200, "OK", nil).
+		Returns(400, "Bad Request", nil))
+
 	//ws.Route(ws.PUT("dataset").To(datasetEndpoint.update).
 	//	Doc("Update a Current Dataset").
 	//	Returns(200, "OK", Dataset{}).
 	//	Returns(400, "Bad Request", nil))
 	//
-
-	ws.Route(ws.DELETE("dataset").To(datasetEndpoint.delete).
-		Doc("Delete a Current Dataset").
-		Returns(200, "OK", nil).
-		Returns(400, "Bad Request", nil))
 }
 
 // show takes GET request.
@@ -60,7 +60,6 @@ func (datasetEndpoint *DatasetEndpoint) show(request *restful.Request, response 
 			})
 		}
 	}
-
 }
 
 // create takes POST request with json format datasetConfig types.
@@ -98,7 +97,7 @@ func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, respons
 		})
 	} else {
 		// Convert
-		newDatasetObj := DatasetConverter.DatasetObject(datasetObj)
+		newDatasetObj := DatasetConverter.DatasetObject(*datasetObj)
 		// Send
 		if err := response.WriteAsJson(newDatasetObj); err != nil {
 			writeError(response, 404, Error{
@@ -107,7 +106,7 @@ func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, respons
 			})
 		}
 	}
-	logger.Infof("Create Dataset: %s Successfully", datasetObj.ObjectMeta.Name)
+	logger.Infof("Create Dataset: %s", datasetObj.ObjectMeta.Name)
 }
 
 // delete takes DELETE request
@@ -135,12 +134,12 @@ func (datasetEndpoint *DatasetEndpoint) delete(request *restful.Request, respons
 			Details: fmt.Sprintf("Could not Delete dataset: %s", err),
 		})
 	}
-	logger.Infof("DELETE Dataset: %s Successfully", datasetObj.ObjectMeta.Name)
+	logger.Infof("DELETE Dataset: %s", datasetObj.ObjectMeta.Name)
 }
 
-func (datasetEndpoint *DatasetEndpoint) update(request *restful.Request, response *restful.Response) {
-	writeError(response, 400, Error{
-		Title:   "Error",
-		Details: "To Do, can read entity",
-	})
-}
+//func (datasetEndpoint *DatasetEndpoint) update(request *restful.Request, response *restful.Response) {
+//	writeError(response, 400, Error{
+//		Title:   "Error",
+//		Details: "To Do, can read entity",
+//	})
+//}

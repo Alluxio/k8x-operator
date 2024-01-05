@@ -14,25 +14,25 @@ func writeError(response *restful.Response, httpStatus int, err Error) {
 	}
 }
 
-// DatasetConverter is used to simplify Dataset CRD to struct in types.go
+// AlluxioClusterConverter is used to simplify AlluxioCluster CRD to struct in types.go
 var AlluxioClusterConverter = &alluxioClusterConverter{}
 
 type alluxioClusterConverter struct{}
 
-func (c *alluxioClusterConverter) AlluxioClusterObject(d *v1alpha1.AlluxioCluster) *AlluxioCluster {
+func (c *alluxioClusterConverter) AlluxioClusterObject(alluxioCluster v1alpha1.AlluxioCluster) *AlluxioCluster {
 	return &AlluxioCluster{
 		AlluxioClusterConfig: AlluxioClusterConfig{
-			Name: d.Name,
-			Spec: &d.Spec,
+			Name: alluxioCluster.Name,
+			Spec: &alluxioCluster.Spec,
 		},
-		Status: &d.Status,
+		Status: &alluxioCluster.Status,
 	}
 }
 
 func (c *alluxioClusterConverter) AlluxioClusterList(list *v1alpha1.AlluxioClusterList) *AlluxioClusterList {
 	items := make([]AlluxioCluster, len(list.Items))
 	for i, r := range list.Items {
-		items[i] = *c.AlluxioClusterObject(&r)
+		items[i] = *c.AlluxioClusterObject(r)
 	}
 	return &AlluxioClusterList{
 		AlluxioClusters: items,
@@ -44,29 +44,29 @@ var DatasetConverter = &datasetConverter{}
 
 type datasetConverter struct{}
 
-func (c *datasetConverter) DatasetObject(d *v1alpha1.Dataset) *Dataset {
+func (c *datasetConverter) DatasetObject(dataset v1alpha1.Dataset) *Dataset {
 	return &Dataset{
 		DatasetConfig: DatasetConfig{
-			Name:        d.Name,
-			Path:        d.Spec.Dataset.Path,
-			Credentials: d.Spec.Dataset.Credentials,
+			Name:        dataset.Name,
+			Path:        dataset.Spec.Dataset.Path,
+			Credentials: dataset.Spec.Dataset.Credentials,
 		},
-		Status: &d.Status,
+		Status: &dataset.Status,
 	}
 }
 
 func (c *datasetConverter) DatasetList(list *v1alpha1.DatasetList) *DatasetList {
 	datasets := make([]Dataset, len(list.Items))
 	for i, r := range list.Items {
-		datasets[i] = *c.DatasetObject(&r)
+		datasets[i] = *c.DatasetObject(r)
 	}
 	return &DatasetList{
 		Datasets: datasets,
 	}
 }
 
-func (c *datasetConverter) K8SDatasetObject(datasetConfig DatasetConfig) *v1alpha1.Dataset {
-	return &v1alpha1.Dataset{
+func (c *datasetConverter) K8SDatasetObject(datasetConfig DatasetConfig) v1alpha1.Dataset {
+	return v1alpha1.Dataset{
 		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
 		Spec: v1alpha1.DatasetSpec{
 			Dataset: v1alpha1.DatasetConf{
