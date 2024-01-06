@@ -14,7 +14,7 @@ type MetricDescription struct {
 	Type string
 }
 
-// metricsDescription is a map of string keys (metrics) to MetricDescription values (Name, Help).
+// metricDescription is a map of string keys (metrics) to MetricDescription values (Name, Help).
 var metricDescription = map[string]MetricDescription{
 	//"MemcachedDeploymentSizeUndesiredCountTotal": {
 	//	Name: "memcached_deployment_size_undesired_count_total",
@@ -38,6 +38,7 @@ var metricDescription = map[string]MetricDescription{
 	},
 }
 
+// Define Metrics
 var (
 	AlluxioClusterAliveWorkerTotal = prometheus.NewGauge(
 		prometheus.GaugeOpts{
@@ -59,13 +60,7 @@ var (
 	)
 )
 
-// RegisterMetrics will register metrics with the global prometheus registry
-//func RegisterMetrics() {
-//	// metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
-//	metrics.Registry.MustRegister(AlluxioClusterDatasetMountedCountTotal)
-//	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
-//}
-
+// RegisterAlluxioControllerMetrics will register Alluxio Controller metrics with the global prometheus registry
 func RegisterAlluxioControllerMetrics() {
 	metrics.Registry.MustRegister(AlluxioClusterAliveWorkerTotal)
 	logger.Infof("Register Metrics: AlluxioClusterAliveWorkerTotal")
@@ -73,6 +68,7 @@ func RegisterAlluxioControllerMetrics() {
 	logger.Infof("Register Metrics: AlluxioClusterDatasetMountedCountTotal")
 }
 
+// RegisterDatasetControllerMetrics will register Dataset Controller metrics with the global prometheus registry
 func RegisterDatasetControllerMetrics() {
 	metrics.Registry.MustRegister(DatasetAliveWorkerTotal)
 	logger.Infof("Register Metrics: DatasetAliveWorkerTotal")

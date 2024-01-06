@@ -70,7 +70,7 @@ func (alluxioClusterEndpoint *AlluxioClusterEndpoint) create(request *restful.Re
 	if err != nil {
 		writeError(response, 400, Error{
 			Title:   "Bad Request",
-			Details: "Could not read entity",
+			Details: "Could not read entity. Check the Input File Format.",
 		})
 		return
 	}

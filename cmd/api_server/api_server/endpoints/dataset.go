@@ -71,7 +71,7 @@ func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, respons
 	if err != nil {
 		writeError(response, 400, Error{
 			Title:   "Bad Request",
-			Details: "Could not read entity",
+			Details: "Could not read entity. Check the Input File Format.",
 		})
 		return
 	}
@@ -81,8 +81,8 @@ func (datasetEndpoint *DatasetEndpoint) create(request *restful.Request, respons
 		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
 		Spec: v1alpha1.DatasetSpec{
 			Dataset: v1alpha1.DatasetConf{
-				Path:        datasetConfig.Path,
-				Credentials: datasetConfig.Credentials,
+				Path:        datasetConfig.Spec.Path,
+				Credentials: datasetConfig.Spec.Credentials,
 			},
 		},
 	}
@@ -129,6 +129,7 @@ func (datasetEndpoint *DatasetEndpoint) delete(request *restful.Request, respons
 
 	// Delete the object
 	if err = datasetEndpoint.client.Delete(request.Request.Context(), datasetObj, &client.DeleteOptions{}); err != nil {
+		logger.Infof("DELETE Dataset: %s Has Error", datasetObj.ObjectMeta.Name)
 		writeError(response, 400, Error{
 			Title:   "Error",
 			Details: fmt.Sprintf("Could not Delete dataset: %s", err),

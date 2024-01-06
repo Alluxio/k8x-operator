@@ -35,7 +35,7 @@ Build dokcer image by running `docker build -t <docker username>/alluxio-operato
 
 * Example:
   ```shell
-  docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:withAPIServer_v6.1 -f dev/build/Dockerfile .
+  docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:withAPIServer_v7.0 -f dev/build/Dockerfile .
   ```
 
 ### Step 3
@@ -43,7 +43,7 @@ Push image to docker hub : `docker push <docker username>/alluxio-operator:<tag>
 
 * Example:
   ```shell
-  docker push kshou433/alluxio-operator:withAPIServer_v6.1
+  docker push kshou433/alluxio-operator:withAPIServer_v7.0
   ```
 
 ### Step 4

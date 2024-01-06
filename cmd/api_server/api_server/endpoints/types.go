@@ -39,9 +39,8 @@ type AlluxioClusterList struct {
 }
 
 type DatasetConfig struct {
-	Name        string            `json:"name"`
-	Path        string            `json:"path"`
-	Credentials map[string]string `json:"credentials,omitempty"`
+	Name string                `json:"name"`
+	Spec *v1alpha1.DatasetConf `json:"spec,omitempty"`
 }
 
 // Dataset todo change the `json:"datasetConfig"` captial letter

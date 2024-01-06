@@ -17,7 +17,7 @@ Make sure add correct namespace in the jsonnet file and generate new manifest fi
 ```
 
 ##### These errors are expected:
-```
+```shell
 Error from server (NotFound): namespaces "alluxio-operator" not found
 Error from server (NotFound): namespaces "alluxio-operator" not found
 ```

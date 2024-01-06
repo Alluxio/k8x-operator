@@ -3,7 +3,6 @@ package endpoints
 import (
 	"github.com/Alluxio/k8s-operator/api/v1alpha1"
 	"github.com/emicklei/go-restful"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kubelog "sigs.k8s.io/controller-runtime/pkg/log"
 )
 
@@ -47,9 +46,8 @@ type datasetConverter struct{}
 func (c *datasetConverter) DatasetObject(dataset v1alpha1.Dataset) *Dataset {
 	return &Dataset{
 		DatasetConfig: DatasetConfig{
-			Name:        dataset.Name,
-			Path:        dataset.Spec.Dataset.Path,
-			Credentials: dataset.Spec.Dataset.Credentials,
+			Name: dataset.Name,
+			Spec: &dataset.Spec.Dataset,
 		},
 		Status: &dataset.Status,
 	}
@@ -65,14 +63,11 @@ func (c *datasetConverter) DatasetList(list *v1alpha1.DatasetList) *DatasetList 
 	}
 }
 
-func (c *datasetConverter) K8SDatasetObject(datasetConfig DatasetConfig) v1alpha1.Dataset {
-	return v1alpha1.Dataset{
-		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
-		Spec: v1alpha1.DatasetSpec{
-			Dataset: v1alpha1.DatasetConf{
-				Path:        datasetConfig.Path,
-				Credentials: datasetConfig.Credentials,
-			},
-		},
-	}
-}
+//func (c *datasetConverter) K8SDatasetObject(datasetConfig DatasetConfig) v1alpha1.Dataset {
+//	return v1alpha1.Dataset{
+//		ObjectMeta: metav1.ObjectMeta{Name: datasetConfig.Name, Namespace: "default"},
+//		Spec: v1alpha1.DatasetSpec{
+//			Dataset: &datasetConfig.Spec,
+//		},
+//	}
+//}
