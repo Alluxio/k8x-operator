@@ -10,10 +10,7 @@ const (
 	ruleName            = "alluxio-operator-rules"
 	alertRuleGroup      = "alluxio.rules"
 	datasetMountedAlert = "AlluxioClusterDatasetMounted"
-	//deploymentSizeUndesiredAlert = "MemcachedDeploymentSizeUndesired"
-	//operatorDownAlert            = "MemcachedOperatorDown"
-	//operatorUpTotalRecordingRule = "memcached_operator_up_total"
-
+	// TODO: Define more rules here
 )
 
 // NewPrometheusRule creates new PrometheusRule(CR) for the operator to have alerts and recording rules
@@ -38,15 +35,12 @@ func NewPrometheusRuleSpec() *monitoringv1.PrometheusRuleSpec {
 			Name: alertRuleGroup,
 			Rules: []monitoringv1.Rule{
 				createDatasetMountedAlertRule(),
-				//createDeploymentSizeUndesiredAlertRule(),
-				//createOperatorDownAlertRule(),
-				//createOperatorUpTotalRecordingRule(),
+				// TODO: Add more rules here
 			},
 		}},
 	}
 }
 
-// createDeploymentSizeUndesiredAlertRule creates MemcachedDeploymentSizeUndesired alert rule
 func createDatasetMountedAlertRule() monitoringv1.Rule {
 	return monitoringv1.Rule{
 		Alert: datasetMountedAlert,
@@ -59,42 +53,3 @@ func createDatasetMountedAlertRule() monitoringv1.Rule {
 		},
 	}
 }
-
-//// createDeploymentSizeUndesiredAlertRule creates MemcachedDeploymentSizeUndesired alert rule
-//func createDeploymentSizeUndesiredAlertRule() monitoringv1.Rule {
-//	return monitoringv1.Rule{
-//		Alert: deploymentSizeUndesiredAlert,
-//		Expr:  intstr.FromString("increase(memcached_deployment_size_undesired_count_total[5m]) >= 3"),
-//		Annotations: map[string]string{
-//			"description": "Memcached-sample deployment size was not as desired more than 3 times in the last 5 minutes.",
-//		},
-//		Labels: map[string]string{
-//			"severity":    "warning",
-//			"runbook_url": runbookURLBasePath + "MemcachedDeploymentSizeUndesired.md",
-//		},
-//	}
-//}
-//
-//// createOperatorDownAlertRule creates MemcachedOperatorDown alert rule
-//func createOperatorDownAlertRule() monitoringv1.Rule {
-//	return monitoringv1.Rule{
-//		Alert: operatorDownAlert,
-//		Expr:  intstr.FromString("memcached_operator_up_total == 0"),
-//		Annotations: map[string]string{
-//			"description": "No running memcached-operator pods were detected in the last 5 min.",
-//		},
-//		For: "5m",
-//		Labels: map[string]string{
-//			"severity":    "critical",
-//			"runbook_url": runbookURLBasePath + "MemcachedOperatorDown.md",
-//		},
-//	}
-//}
-//
-//// createOperatorUpTotalRecordingRule creates memcached_operator_up_total recording rule
-//func createOperatorUpTotalRecordingRule() monitoringv1.Rule {
-//	return monitoringv1.Rule{
-//		Record: operatorUpTotalRecordingRule,
-//		Expr:   intstr.FromString("sum(up{pod=~'memcached-operator-controller-manager-.*'} or vector(0))"),
-//	}
-//}

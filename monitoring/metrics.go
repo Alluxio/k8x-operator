@@ -16,11 +16,6 @@ type MetricDescription struct {
 
 // metricDescription is a map of string keys (metrics) to MetricDescription values (Name, Help).
 var metricDescription = map[string]MetricDescription{
-	//"MemcachedDeploymentSizeUndesiredCountTotal": {
-	//	Name: "memcached_deployment_size_undesired_count_total",
-	//	Help: "Total number of times the deployment size was not as desired.",
-	//	Type: "Counter",
-	//},
 	"AlluxioClusterAliveWorkerTotal": {
 		Name: "alluxio_cluster_alive_worker_total",
 		Help: "Total number of alive worker in Alluxio Cluster.",
@@ -77,7 +72,7 @@ func RegisterDatasetControllerMetrics() {
 // ListMetrics will create a slice with the metrics available in metricDescription
 func ListMetrics() []MetricDescription {
 	v := make([]MetricDescription, 0, len(metricDescription))
-	// Insert value (Name, Help) for each metric
+
 	for _, value := range metricDescription {
 		v = append(v, value)
 	}

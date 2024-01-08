@@ -1,5 +1,5 @@
 image: docker.io/kshou433/alluxio-operator
-imageTag: withAPIServer_v7.0
+imageTag: withAPIServer_v7.2
 imagePullPolicy: Always
 alluxio-csi:
   enabled: 'false'
