@@ -1,4 +1,4 @@
-# Developemnt Handbook
+# Development Handbook
 
 #### Make Sure you have a k8s cluster
 
@@ -8,7 +8,7 @@
 Generate Helm Chart files by running `./dev/build/generate.sh` under project root.
 
 ### Step 1
-Install Alluxion Operator via Helm Chart under `deploy/charts/alluxio-operator`
+Install Alluxio Operator via Helm Chart under `deploy/charts/alluxio-operator`
   ```shell
   helm install operator -f operator-config.yaml deploy/charts/alluxio-operator
   ```
@@ -28,14 +28,14 @@ Create a dockerhub account, and login in terminal
 Generate Helm Chart files by running `./dev/build/generate.sh` under project root.
 
 ### Step 2
-Build dokcer image by running `docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .` under project root.
+Build docker image by running `docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .` under project root.
 
 * For Apple Silicon Chip: `docker buildx build --platform linux/amd64 -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .`
 
 
 * Example:
   ```shell
-  docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:withAPIServer_v7.2 -f dev/build/Dockerfile .
+  docker buildx build --platform linux/amd64 -t kshou433/alluxio-operator:withAPIServer_v8.2 -f dev/build/Dockerfile .
   ```
 
 ### Step 3
@@ -43,7 +43,7 @@ Push image to docker hub : `docker push <docker username>/alluxio-operator:<tag>
 
 * Example:
   ```shell
-  docker push kshou433/alluxio-operator:withAPIServer_v7.2
+  docker push kshou433/alluxio-operator:withAPIServer_v8.2
   ```
 
 ### Step 4

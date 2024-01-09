@@ -42,7 +42,7 @@ export async function sendRequest(requestOptions, serverUrl) {
                 const errorMessage = `${errorBody.title}: ${errorBody.details}`;
                 return [AlertMethod.Error, errorMessage];
             } catch (jsonError) {
-                return [AlertMethod.Error, 'An error occurred, but the error message from API-Server could not be parsed.'];
+                return [AlertMethod.Error, 'An error occurred, but the error from API Server could not be parsed.'];
             }
         }
         return [AlertMethod.Success, 'Success!'];
@@ -69,14 +69,13 @@ export async function getRequest(serverUrl){
                 const errorMessage = `${errorBody.title}: ${errorBody.details}`;
                 return [AlertMethod.Error, errorMessage];
             } catch (jsonError) {
-                return [AlertMethod.Error, 'An error occurred, but the error message from API-Server could not be parsed.'];
+                return [AlertMethod.Error, 'An error occurred, but the error from API Server could not be parsed.'];
             }
         }
 
         const result = await response.json();
         return [AlertMethod.Success, 'Success!', result];
     } catch (error) {
-        console.log(error);
         return [AlertMethod.Error, error.toString()];
     }
 }
@@ -118,12 +117,10 @@ export function convertToStringifyJSON(dataType, inputData) {
         const parsedYaml = yaml.load(inputData);
         return JSON.stringify(parsedYaml, null, 2);
     }
-
     if (dataType === DataType.JSONString) {
         const parsedJSON = JSON.parse(inputData);
         return JSON.stringify(parsedJSON);
     }
-
     if (dataType === DataType.YAMLObject) {
         return JSON.stringify(inputData)
     }

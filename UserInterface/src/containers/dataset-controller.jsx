@@ -1,5 +1,5 @@
 import React, { Component} from 'react';
-import CreateObject from "../util/CreateObject";
+import CreateObject from "../components/manipulate/CreateObject";
 import Datasets from "../components/dataset/Datasets";
 import {AlertMethod} from "../components/alert/Alert";
 import {

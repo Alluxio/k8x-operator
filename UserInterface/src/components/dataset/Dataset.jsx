@@ -1,5 +1,5 @@
 import React from 'react';
-import ViewObject from "../../util/ViewObject";
+import ViewObject from "../manipulate/ViewObject";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { JSONtoStringifyYAML } from "../../util/util";

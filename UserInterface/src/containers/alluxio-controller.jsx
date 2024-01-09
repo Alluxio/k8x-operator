@@ -6,7 +6,7 @@ import {
     generateHttpRequestOptions
 } from "../util/util";
 import AlluxioClusters from "../components/alluxio_cluster/AlluxioClusters";
-import CreateObject from "../util/CreateObject";
+import CreateObject from "../components/manipulate/CreateObject";
 
 import { connect } from 'react-redux';
 import {setAlert} from "../redux/actions/alertActions";

@@ -9,7 +9,7 @@ They have their own `Service` which is `alluxio-operator-metrics` and `dataset-o
 
 ## Deployment
 ### Install Prometheus Operator to K8S Cluster
-We recommand to use [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus).
+We recommend to use [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus).
 
 - Make sure to add correct namespace in the `.jsonnet` and generate new a manifest.
     ```
@@ -23,7 +23,7 @@ We recommand to use [kube-prometheus](https://github.com/prometheus-operator/kub
     kubectl apply --server-side -f manifests/setup -f manifests
     ```
 
-    -  These errors are expected since we have not   yet deply `alluxio-operator`:
+    -  These errors are expected since we have not yet deploy `alluxio-operator`:
         ```shell
         Error from server (NotFound): namespaces "alluxio-operator" not found
         Error from server (NotFound): namespaces "alluxio-operator" not found

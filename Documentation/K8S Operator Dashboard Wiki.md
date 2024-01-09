@@ -14,8 +14,8 @@ The Alluxio Operator Dashboard is a full-stack project comprising two main compo
 ### API Server on K8s Operator
 A new **Kubernetes Deployment** that handles Restful API Request from the User Interface and also hosts the User Interface. Similar to _alluxio-controller_ and _dataset-controller_, it has its own deployment file: `api-server-controller.yaml`. 
 
-#### Restuful WebService
-The API Server uses _Restuful WebService_ to communicates with GUI with endpoints: `api/dataset` and `api/alluxio_cluster`. Each endpoint currently supports `GET`, `POST` and `DELETE` HTTP request methods.
+#### Restful WebService
+The API Server uses _Restful WebService_ to communicates with GUI with endpoints: `api/dataset` and `api/alluxio_cluster`. Each endpoint currently supports `GET`, `POST` and `DELETE` HTTP request methods.
 
 When API Server gets a Restful API Request, it uses Kubernetes `controller-runtime` to interact with Kubernetes Cluster. 
 
@@ -25,13 +25,13 @@ We also have converter functions that can simplify the Kubernetes controller-run
 Embedding production build of User Interface by using `go:embed`. And the endpoint of User Interface is set to `/`. 
 
 #### Run Locally
-API-Server has its own `main.go`, you can simply start this application along with the Alluxio Operator deployed in the Kubernetes Cluster. The defualt port has been set to `8080`.
+API-Server has its own `main.go`, you can simply start this application along with the Alluxio Operator deployed in the Kubernetes Cluster. The default port has been set to `8080`.
 
 - You can use `curl` to communicate with API Server without the User Interface.
 
 
 ### User Interface
-The User Interface is built on **React** with JavaScript, and is using Redux to manange shared state. 
+The User Interface is built on **React** with JavaScript, and is using Redux to manage shared state. 
 
 In current version, we are using *continuous polling* to fetch data from the API Server.
 
@@ -56,7 +56,7 @@ The API Server embed the static file under `cmd/api_server/api_server/gui` folde
 ## Deployment
 ### Deploy Operator with API-Server
 #### Please follow [this document](https://tachyonnexus.atlassian.net/wiki/spaces/ENGINEERIN/pages/86147073/K8S+Operator+Wiki#Prerequisites) for a more detailed reference.
-- Get operator deployment tarball. Untar and Name it `alluxio-operator`
+- Get operator deployment tarball. Un-tar and Name it `alluxio-operator`
 
 - Create a private repository on [AWS ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-create.html). Name it `alluxio-operator`.
 
@@ -93,7 +93,7 @@ Create a dockerhub account, and login in terminal
 Generate Helm Chart files by running `./dev/build/generate.sh` under project root.
 
 #### Step 2
-Build dokcer image by running `docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .` under project root.
+Build docker image by running `docker build -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .` under project root.
 
 * For Apple Silicon Chip: `docker buildx build --platform linux/amd64 -t <docker username>/alluxio-operator:<tag> -f dev/build/Dockerfile .`
 
@@ -103,11 +103,25 @@ Push image to docker hub : `docker push <docker username>/alluxio-operator:<tag>
 #### Step 4
 Update image url and tage in ```operator-config.yaml```
 
-### Test Operator Docker Image Locally
+### Run Operator Docker Image 
 #### Install Operator:
-Install Alluxion Operator via Helm Chart under `deploy/charts/alluxio-operator`
+Install Alluxio Operator via Helm Chart under `deploy/charts/alluxio-operator`
   
   `helm install operator -f operator-config.yaml deploy/charts/alluxio-operator`
 
 #### Uninstall Operator:
   `helm delete operator `
+
+### Create Sample K8S Cluster on EKS
+* Link: https://github.com/ssz1997/SampleEKSTerraformScript#create-eks-cluster
+
+### Kubectl CheatSheet
+#### Dataset
+- Deploy `kubectl create -f dataset.yaml`
+- Verify `kubectl get dataset`
+- Delete `kubectl delete dataset my-dataset`
+
+#### Alluxio
+- Deploy `kubectl create -f alluxio-config.yaml`
+- Verify `kubectl get alluxiocluster`
+- Delete `kubectl delete alluxiocluster alluxio`
