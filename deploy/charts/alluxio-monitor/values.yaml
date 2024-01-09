@@ -20,7 +20,7 @@ grafanaConfig:
 - name: grafana-datasource-config
   path: /etc/grafana/provisioning/datasources
 
-# The prometheus.yaml file path.
+# The prometheus_service_account.yaml file path.
 prometheusConfig:
   - name: prometheus-config
     path: /etc/prometheus

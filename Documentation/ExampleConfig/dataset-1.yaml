@@ -1,0 +1,6 @@
+name: dataset-1
+spec:
+    path: s3://test-fuse/
+    credentials:
+        aws.accessKeyId: ABC
+        aws.secretKey: XYZ
