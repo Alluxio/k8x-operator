@@ -26,6 +26,9 @@ RUN CGO_ENABLED=0 go build -a -o ../../bin/alluxio-manager
 WORKDIR /opt/alluxio-k8s-operator/cmd/dataset
 RUN CGO_ENABLED=0 go build -a -o ../../bin/dataset-manager
 
+WORKDIR /opt/alluxio-k8s-operator/cmd/api_server
+RUN CGO_ENABLED=0 go build -a -o ../../bin/api-server-manager
+
 WORKDIR /opt/helm
 
 ARG HELM_VERSION=v3.11.2
@@ -44,6 +47,7 @@ COPY --chown=1001:1001 ../../deploy/charts/alluxio-monitor /opt/charts/alluxio-m
 COPY --chown=1001:1001 ../../deploy/jobs /opt/alluxio-jobs
 COPY --chown=1001:1001 --from=builder /opt/alluxio-k8s-operator/bin/alluxio-manager .
 COPY --chown=1001:1001 --from=builder /opt/alluxio-k8s-operator/bin/dataset-manager .
+COPY --chown=1001:1001 --from=builder /opt/alluxio-k8s-operator/bin/api-server-manager .
 COPY --chown=1001:1001 --from=builder /opt/helm/linux-amd64/helm /usr/local/bin/helm
 
 WORKDIR /opt/charts/alluxio

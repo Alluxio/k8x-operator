@@ -1,0 +1,170 @@
+name: alluxio
+spec:
+
+  dataset: dataset-1
+
+  image: alluxio/alluxio
+
+  imageTag: latest
+
+  imagePullPolicy: IfNotPresent
+
+
+  properties:
+
+    alluxio.user.file.metadata.sync.interval: "-1"
+
+    alluxio.dora.ufs.file.status.cache.ttl: 1440h
+
+    alluxio.dora.worker.metastore.rocksdb.ttl: 1440h
+
+    alluxio.dora.ufs.file.status.cache.size: "100000000"
+
+    alluxio.user.network.netty.timeoutL: 10min
+
+    alluxio.user.netty.data.transmission.enabled: "true"
+
+    alluxio.worker.network.netty.channelL: epoll
+
+    alluxio.worker.network.netty.backlog: "500"
+
+    alluxio.network.netty.heartbeat.timeout: 5min
+
+    alluxio.job.batch.size: "200"
+
+    alluxio.underfs.io.threads: "50"
+
+    alluxio.dora.worker.metastore.rocksdb.dir: /mnt/alluxio/metastore
+
+    alluxio.mount.table.source: NONE
+
+    alluxio.worker.page.store.page.size: 1MB
+
+    alluxio.master.scheduler.initial.wait.time: 10s
+
+    license.check.enabled: "false"
+
+    alluxio.security.authentication.type: NOSASL
+
+    alluxio.security.authorization.permission.enabled: "false"
+
+    alluxio.security.authorization.plugins.enabled: "false"
+
+    #alluxio.fuse.debug.enabled: "true"
+
+  master:
+
+    resources:
+
+      limits:
+
+        cpu: "2"
+
+        memory: "4Gi"
+
+      requests:
+
+        cpu: "2"
+
+        memory: "4Gi"
+
+    jvmOptions:
+      -  "-Xmx2g"
+
+      -  "-Xms2g"
+
+  worker:
+
+    count: 1
+
+    resources:
+
+      limits:
+
+        cpu: "2.5"
+
+        memory: "8Gi"
+
+      requests:
+
+        cpu: "2.5"
+
+        memory: "8Gi"
+
+    jvmOptions:
+      - "-Xmx5g"
+
+      - "-Xms5g"
+
+      - "-XX:MaxDirectMemorySize=3g"
+
+
+
+  pagestore:
+
+    type: hostPath
+
+    quota: 2Ti,2Ti
+
+    hostPath: /pagestore1,/pagestore2
+
+
+
+  fuse:
+
+    enabled: true
+
+    resources:
+
+      requests:
+
+        cpu: "2.5"
+
+        memory: "8Gi"
+
+      limits:
+
+        cpu: "2.5"
+
+        memory: "8Gi"
+
+    mountOptions:
+
+      - allow_other
+
+      - entry_timeout=10000
+
+      - attr_timeout=10000
+
+    jvmOptions:
+
+      - "-Xmx5g"
+
+      - "-Xms5g"
+
+      - "-XX:MaxDirectMemorySize=2g"
+
+  metrics:
+
+    prometheusMetricsServlet:
+
+      enabled: true
+
+      podAnnotations:
+
+        prometheus.io/scrape: "true"
+
+        prometheus.io/masterPort: "19999"
+
+        prometheus.io/workerPort: "30000"
+
+        prometheus.io/path: "/metrics/prometheus/"
+
+  etcd:
+
+    enabled: true
+
+  alluxio-monitor:
+
+    enabled: true
+

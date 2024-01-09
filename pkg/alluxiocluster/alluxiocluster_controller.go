@@ -13,10 +13,13 @@ package alluxiocluster
 
 import (
 	"context"
-
+	"github.com/Alluxio/k8s-operator/monitoring"
+	monitoringv1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"reflect"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -39,6 +42,9 @@ type AlluxioClusterReconcileReqCtx struct {
 	types.NamespacedName
 }
 
+const ruleName = "alluxio-operator-rules"
+const namespace = "alluxio-operator"
+
 func (r *AlluxioClusterReconciler) Reconcile(context context.Context, req ctrl.Request) (ctrl.Result, error) {
 	logger.Infof("Reconciling AlluxioCluster %s", req.NamespacedName.String())
 	ctx := AlluxioClusterReconcileReqCtx{
@@ -46,6 +52,30 @@ func (r *AlluxioClusterReconciler) Reconcile(context context.Context, req ctrl.R
 		Context:        context,
 		NamespacedName: req.NamespacedName,
 	}
+
+	// Check if prometheus rule already exists, if not create a new one
+	foundRule := &monitoringv1.PrometheusRule{}
+	if err := r.Get(ctx, types.NamespacedName{Name: ruleName, Namespace: namespace}, foundRule); err != nil {
+		if apierrors.IsNotFound(err) {
+			// Define a new prometheus rule
+			prometheusRule := monitoring.NewPrometheusRule(namespace)
+			if err := r.Create(ctx, prometheusRule); err != nil {
+				logger.Errorf("Failed to create prometheus rule:  %v", err)
+				return ctrl.Result{}, nil
+			}
+		}
+	} else {
+		// Check if prometheus rule spec was changed, if so set as desired
+		desiredRuleSpec := monitoring.NewPrometheusRuleSpec()
+		if !reflect.DeepEqual(foundRule.Spec.DeepCopy(), desiredRuleSpec) {
+			desiredRuleSpec.DeepCopyInto(&foundRule.Spec)
+			if r.Update(ctx, foundRule); err != nil {
+				logger.Errorf("Failed to update prometheus rule:  %v", err)
+				return ctrl.Result{}, nil
+			}
+		}
+	}
+	// END OF prometheus rule
 
 	alluxioCluster := &alluxiov1alpha1.AlluxioCluster{}
 	ctx.AlluxioCluster = alluxioCluster
@@ -71,6 +101,9 @@ func (r *AlluxioClusterReconciler) Reconcile(context context.Context, req ctrl.R
 			logger.Errorf("Failed to get Dataset %s: %v", req.NamespacedName.String(), err)
 			return ctrl.Result{}, err
 		}
+
+	} else {
+		monitoring.AlluxioClusterDatasetMountedCountTotal.Inc()
 	}
 
 	if alluxioCluster.DeletionTimestamp != nil {

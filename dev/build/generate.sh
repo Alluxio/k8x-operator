@@ -23,6 +23,8 @@ main() {
   generate_deepcopy_methods_file
   generate_crds
   copy_crds_to_chart
+  remove_templates_in_chart
+  copy_templates_to_chart
 }
 
 set_gobin() {
@@ -63,6 +65,14 @@ insert_license_header() {
 
 copy_crds_to_chart() {
   cp -r "${SCRIPT_DIR}"/../../resources/crds "${SCRIPT_DIR}"/../../deploy/charts/alluxio-operator/
+}
+
+copy_templates_to_chart() {
+  cp -r "${SCRIPT_DIR}"/../../resources/templates "${SCRIPT_DIR}"/../../deploy/charts/alluxio-operator/
+}
+
+remove_templates_in_chart() {
+  rm -r "${SCRIPT_DIR}"/../../deploy/charts/alluxio-operator/templates/
 }
 
 main
